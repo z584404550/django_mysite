@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'blog',
     'read_statistics',
+    'comment',
+    'likes',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +121,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -145,6 +147,34 @@ MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
 # 配置ckeditor
 CKEDITOR_UPLOAD_PATH = 'upload/'
 
+CKEDITOR_CONFIGS = {
+    'default': {},
+    'comment_ckeditor': {
+        'toolbar': 'custom',
+        'toolbar_custom': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['TextColor', 'BGColor', 'RemoveFormat'],
+            ['NumberedList', 'BulletedList'],
+            ['Link', 'Unlink'],
+            ['Smiley', 'SpecialChar', 'Blockquote']
+        ],
+        'height': 180,
+        'width': 'auto',
+        'tabSpaces': 4,
+        'removePlugins': 'elementspath',
+        'resize_enabled': False,
+    }
+    }
+
 
 # 自定义参数
 EACH_PAGE_BLOGS_NUMBER = 7
+
+
+# 缓存设置
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
