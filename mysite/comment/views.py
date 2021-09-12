@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import JsonResponse
+from django.contrib.contenttypes.models import ContentType
 from .models import Comment
 from .forms import CommentForm
 
@@ -24,9 +25,8 @@ def update_comment(request):
         comment.save()
         data['status'] = 'SUCCESS'
         data['username'] = comment.user.username
-        data['comment_time'] = comment.comment_time.strftime('%Y-%m-%d %H:%M:%S')
         data['comment_time'] = comment.comment_time.timestamp()
-        print(data['comment_time'])
+        data['content_type'] = ContentType.objects.get_for_model(comment).model
         data['text'] = comment.text
         if parent is not None:
             data['reply_to'] = comment.reply_to.username
