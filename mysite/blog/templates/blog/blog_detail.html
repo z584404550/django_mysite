@@ -251,7 +251,11 @@
                         var element = $(obj.getElementsByClassName('liked-num'));
                         element.text(data['liked_num']);
                     }else{
-                        alert(data['message']);
+                        if (data['code']==400) {
+                            $('#login_modal').modal('show');   
+                        }else{
+                            alert(data['message']);
+                        }
                     }
                 },
                 error: function(xhr){

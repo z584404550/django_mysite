@@ -16,7 +16,7 @@ def get_like_num(obj):
 def get_like_status(context, obj):
     content_type = ContentType.objects.get_for_model(obj)
     user = context['user']
-    if not user:
+    if not user.is_authenticated:
         return ''
     if LikeRecord.objects.filter(content_type=content_type, object_id=obj.pk, user=user).exists():
         return 'active'
