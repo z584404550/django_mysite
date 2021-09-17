@@ -49,7 +49,8 @@ def register(request):
             email = reg_form.cleaned_data['email']
             password = reg_form.cleaned_data['password']
             # 创建用户
-            user = User.objects.create_user(username=username, email=email, password=password)
+            user = User.objects.create_user(
+                username=username, email=email, password=password)
             user.save()
             # 登录用户
             user = auth.authenticate(username=username, password=password)
@@ -70,4 +71,3 @@ def logout(request):
 def user_info(request):
     context = dict()
     return render(request, 'user/user_info.html', context)
-    

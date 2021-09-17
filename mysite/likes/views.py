@@ -42,7 +42,8 @@ def like_change(request):
             content_type=content_type, object_id=object_id, user=user)
         if created:
             # 未点赞过，进行点击
-            like_count, created = LikeCount.objects.get_or_create(content_type=content_type, object_id=object_id)
+            like_count, created = LikeCount.objects.get_or_create(
+                content_type=content_type, object_id=object_id)
             like_count.like_num += 1
             like_count.save()
             return success_response(like_count.like_num)
@@ -53,10 +54,12 @@ def like_change(request):
         # 取消点赞
         if LikeRecord.objects.filter(content_type=content_type, object_id=object_id, user=user).exists():
             # 有点赞过，取消点赞
-            like_record = LikeRecord.objects.get(content_type=content_type, object_id=object_id, user=user)
+            like_record = LikeRecord.objects.get(
+                content_type=content_type, object_id=object_id, user=user)
             like_record.delete()
             # 点赞总数-1
-            like_count, created = LikeCount.objects.get_or_create(content_type=content_type, object_id=object_id)
+            like_count, created = LikeCount.objects.get_or_create(
+                content_type=content_type, object_id=object_id)
             if not created:
                 like_count.like_num -= 1
                 like_count.save()

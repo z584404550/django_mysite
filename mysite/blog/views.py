@@ -16,7 +16,8 @@ def get_blog_list_common_data(request, blogs_all_list):
     page_of_blogs = paginator.get_page(page_num)
     # 获取当前页码
     current_page_num = page_of_blogs.number
-    page_range = list(range(max(current_page_num - 2, 1), min(paginator.num_pages + 1, current_page_num + 3)))
+    page_range = list(range(max(current_page_num - 2, 1),
+                      min(paginator.num_pages + 1, current_page_num + 3)))
     # 加上省略页码标记
     if page_range[0] > 2:
         page_range.insert(0, '...')
@@ -38,7 +39,8 @@ def get_blog_list_common_data(request, blogs_all_list):
     blog_dates = Blog.objects.dates('created_time', 'month', order="DESC")
     blog_dates_dict = dict()
     for blog_date in blog_dates:
-        blog_count = Blog.objects.filter(created_time__year=blog_date.year, created_time__month=blog_date.month).count()
+        blog_count = Blog.objects.filter(
+            created_time__year=blog_date.year, created_time__month=blog_date.month).count()
         blog_dates_dict[blog_date] = blog_count
     context = dict()
     context['blogs'] = page_of_blogs.object_list
@@ -62,9 +64,11 @@ def blog_detail(request, blog_pk):
     context = dict()
     context['blog'] = blog
     # 上一篇
-    context['previous_blog'] = Blog.objects.filter(created_time__gt=blog.created_time).last()
+    context['previous_blog'] = Blog.objects.filter(
+        created_time__gt=blog.created_time).last()
     # 下一篇
-    context['next_blog'] = Blog.objects.filter(created_time__lt=blog.created_time).first()
+    context['next_blog'] = Blog.objects.filter(
+        created_time__lt=blog.created_time).first()
     response = render(request, 'blog/blog_detail.html', context)
     # 阅读cookie标记
     response.set_cookie(read_cookie_key, 'true')
@@ -80,7 +84,8 @@ def blogs_with_type(request, blog_type_pk):
 
 
 def blog_with_date(request, year, month):
-    blogs_all_list = Blog.objects.filter(created_time__year=year, created_time__month=month)
+    blogs_all_list = Blog.objects.filter(
+        created_time__year=year, created_time__month=month)
     context = get_blog_list_common_data(request, blogs_all_list)
     context['blog_with_date'] = '%s年%s月' % (year, month)
     return render(request, 'blog/blog_with_date.html', context)
